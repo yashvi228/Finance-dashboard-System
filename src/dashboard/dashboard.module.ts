@@ -1,8 +1,10 @@
-import { Module, forwardRef } from '@nestjs/common';
-import { RecordsModule } from '../records/records.module';
+import { Module } from '@nestjs/common';
+import { DashboardController } from './dashboard.controller';
+import { DashboardService } from './dashboard.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
-  imports: [forwardRef(() => RecordsModule)],
-  // ...
+  controllers: [DashboardController],
+  providers: [DashboardService, PrismaService],
 })
-export class DashboardModule {}
+export class DashboardModule { }

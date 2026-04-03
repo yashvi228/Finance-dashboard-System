@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Request } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { RecordsService } from './records.service';
 import { CreateRecordDto } from './dto/create-record.dto';
 import { UpdateRecordDto } from './dto/update-record.dto';
@@ -6,10 +7,11 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 
+@ApiBearerAuth()
 @Controller('records')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class RecordsController {
-  constructor(private readonly recordsService: RecordsService) {}
+  constructor(private readonly recordsService: RecordsService) { }
 
   @Post()
   @Roles('analyst', 'admin')

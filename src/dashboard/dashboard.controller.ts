@@ -1,9 +1,11 @@
 import { Controller, Get, Request, UseGuards, Query } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { DashboardService } from './dashboard.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 
+@ApiBearerAuth()
 @Controller('dashboard')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class DashboardController {
