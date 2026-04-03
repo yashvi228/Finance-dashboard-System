@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class DashboardService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async getSummary(userId: number, role: string) {
     const where = role === 'admin' ? {} : { userId };
@@ -59,5 +59,15 @@ export class DashboardService {
       else entry.expense += rec.amount;
     });
     return Array.from(trends.values()).sort((a, b) => a.month.localeCompare(b.month));
+  }
+
+  async getRecentTransactions(userId: number, role: string, limit = 5) {
+    const where = role === 'admin' ? {} : { userId };
+    return this.prisma.record.findMany({
+      where,
+      take: limit,
+      orderBy: { date: 'desc' },
+      select: { id: true, amount: true, type: true, category: true, date: true },
+    });
   }
 }
